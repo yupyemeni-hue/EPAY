@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة إباي | EBAY Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <header class="top-nav">
+        <div class="logo">إباي - رصد بيئة اليمن 🇾🇪</div>
+        <div class="nav-tools">
+            <span id="timer-label">التحديث القادم: 10:00</span>
+            <button onclick="toggleLang()" class="btn-lang">English</button>
+        </div>
+    </header>
+
+    <div class="dashboard-body">
+        <aside class="side-panel">
+            <div id="alerts-container"></div> <div class="city-info">
+                <h2 id="city-name">اختر محافظة من الخريطة</h2>
+                <p id="weather-status">--</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="card">
+                    <i class="fas fa-temperature-high"></i>
+                    <small>الحرارة</small>
+                    <h3 id="temp">--°م</h3>
+                </div>
+                <div class="card">
+                    <i class="fas fa-smog"></i>
+                    <small>جودة الهواء</small>
+                    <h3 id="aqi">--</h3>
+                </div>
+                <div class="card">
+                    <i class="fas fa-tint"></i>
+                    <small>الرطوبة</small>
+                    <h3 id="hum">--%</h3>
+                </div>
+                <div class="card">
+                    <i class="fas fa-wind"></i>
+                    <small>الرياح</small>
+                    <h3 id="wind">-- كم/س</h3>
+                </div>
+            </div>
+
+            <div class="chart-area">
+                <canvas id="ecoChart"></canvas>
+            </div>
+        </aside>
+
+        <main class="map-area">
+            <div id="map"></div>
+        </main>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
