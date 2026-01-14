@@ -3,67 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة إباي | EBAY Dashboard</title>
+    <title>Yemen Eco-Intelligence | المنصة الوطنية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;500;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: #f0fdf4; }
+        .glass { background: rgba(255,255,255,0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); }
+        #map { height: 600px; border-radius: 24px; z-index: 1; }
+        .windy-box { position: absolute; top: 20px; left: 20px; width: 300px; height: 200px; z-index: 400; border-radius: 16px; overflow: hidden; border: 2px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    </style>
 </head>
-<body>
+<body class="text-slate-800">
 
-<div class="app-container">
-    <header class="top-nav">
-        <div class="logo">إباي - رصد بيئة اليمن 🇾🇪</div>
-        <div class="nav-tools">
-            <span id="timer-label">التحديث القادم: 10:00</span>
-            <button onclick="toggleLang()" class="btn-lang">English</button>
+    <nav class="sticky top-0 z-50 glass px-6 py-4 shadow-sm">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-3xl">🇾🇪</span>
+                <h1 class="text-2xl font-black text-green-900">ECO<span class="text-green-500">YEMEN</span></h1>
+            </div>
+            <div class="bg-green-100 text-green-800 px-4 py-1 rounded-full text-xs font-bold animate-pulse" id="last-update">
+                جاري التحديث...
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <div class="dashboard-body">
-        <aside class="side-panel">
-            <div id="alerts-container"></div> <div class="city-info">
-                <h2 id="city-name">اختر محافظة من الخريطة</h2>
-                <p id="weather-status">--</p>
+    <main class="container mx-auto px-4 py-8 space-y-8">
+
+        <section class="glass p-8 rounded-3xl shadow-lg border-r-4 border-green-500 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+            <h2 class="text-xl font-bold mb-3 flex items-center gap-2">
+                🤖 تقرير المستشار الذكي (AI Analysis)
+            </h2>
+            <p id="ai-text" class="text-lg text-slate-600 leading-relaxed">
+                جاري تحليل بيانات الأقمار الصناعية عبر GPT-4...
+            </p>
+        </section>
+
+        <div class="relative">
+            <div id="map" class="shadow-2xl"></div>
+            <div class="windy-box hidden md:block group hover:w-[600px] hover:h-[400px] transition-all duration-500">
+                <iframe width="100%" height="100%" src="https://embed.windy.com/embed2.html?lat=15.369&lon=44.191&detailLat=15.369&detailLon=44.191&width=650&height=450&zoom=5&level=surface&overlay=wind&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-3xl shadow-lg">
+                <h3 class="font-bold text-lg mb-4">📸 الإبلاغ البيئي الذكي</h3>
+                <input type="text" id="report-desc" placeholder="وصف المخالفة (مثلاً: تراكم نفايات)" class="w-full p-3 bg-slate-50 rounded-xl mb-3 border border-slate-200">
+                <button id="send-report-btn" class="w-full bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 transition shadow-lg shadow-green-200">
+                    ارسال البلاغ (Firebase)
+                </button>
+                <div id="fb-status" class="mt-3 text-center text-xs text-slate-400"></div>
             </div>
 
-            <div class="stats-grid">
-                <div class="card">
-                    <i class="fas fa-temperature-high"></i>
-                    <small>الحرارة</small>
-                    <h3 id="temp">--°م</h3>
-                </div>
-                <div class="card">
-                    <i class="fas fa-smog"></i>
-                    <small>جودة الهواء</small>
-                    <h3 id="aqi">--</h3>
-                </div>
-                <div class="card">
-                    <i class="fas fa-tint"></i>
-                    <small>الرطوبة</small>
-                    <h3 id="hum">--%</h3>
-                </div>
-                <div class="card">
-                    <i class="fas fa-wind"></i>
-                    <small>الرياح</small>
-                    <h3 id="wind">-- كم/س</h3>
-                </div>
+            <div class="bg-slate-900 text-white p-6 rounded-3xl shadow-lg flex flex-col justify-center items-center text-center">
+                <div class="text-sm text-slate-400 mb-2">جودة الهواء في صنعاء</div>
+                <div id="sanaa-aqi" class="text-5xl font-black text-green-400 mb-2">--</div>
+                <div id="sanaa-status" class="text-sm bg-slate-800 px-3 py-1 rounded-full">جاري التحميل</div>
             </div>
+        </div>
 
-            <div class="chart-area">
-                <canvas id="ecoChart"></canvas>
-            </div>
-        </aside>
+    </main>
 
-        <main class="map-area">
-            <div id="map"></div>
-        </main>
-    </div>
-</div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="assets/js/config.js"></script>
-<script src="assets/js/main.js"></script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKfybKBcsB1JaiPzNCEPyaaVEJDDBcVNo",
+            authDomain: "epayemen-d76a7.firebaseapp.com",
+            projectId: "epayemen-d76a7",
+            storageBucket: "epayemen-d76a7.firebasestorage.app",
+            messagingSenderId: "373129294246",
+            appId: "1:373129294246:web:db71b3da5a3f91f622df67",
+            measurementId: "G-YKW9HG4XPT"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // إرسال البلاغ
+        document.getElementById('send-report-btn').addEventListener('click', async () => {
+            const desc = document.getElementById('report-desc').value;
+            const statusDiv = document.getElementById('fb-status');
+            
+            if(!desc) return;
+            
+            statusDiv.innerText = "جاري الاتصال بالسيرفر...";
+            try {
+                await addDoc(collection(db, "reports"), {
+                    description: desc,
+                    timestamp: serverTimestamp(),
+                    status: "new"
+                });
+                statusDiv.innerText = "✅ تم تسجيل البلاغ في قاعدة بيانات Firebase بنجاح!";
+                statusDiv.classList.add("text-green-500");
+                document.getElementById('report-desc').value = "";
+            } catch (e) {
+                statusDiv.innerText = "❌ حدث خطأ: " + e.message;
+                statusDiv.classList.add("text-red-500");
+            }
+        });
+    </script>
+
+    <script>
+        // الخرائط والبيانات الحية
+        const map = L.map('map').setView([15.5, 47.5], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // جلب البيانات التي ولدها البايثون
+        async function loadEcoData() {
+            try {
+                // ملاحظة: هذا الملف يتم توليده تلقائياً بواسطة GitHub Actions
+                const response = await fetch('live_data.json');
+                if (!response.ok) throw new Error("Data not generated yet");
+                
+                const data = await response.json();
+                
+                // تحديث الواجهة
+                document.getElementById('last-update').innerText = "آخر تحديث: " + data.last_update;
+                document.getElementById('ai-text').innerText = data.ai_report;
+
+                // تحديث الخريطة
+                data.locations.forEach(city => {
+                    const color = city.aqi > 3 ? 'red' : (city.aqi > 2 ? 'orange' : 'green');
+                    L.circleMarker([city.lat, city.lon], {
+                        radius: 15, color: color, fillColor: color, fillOpacity: 0.6
+                    }).addTo(map).bindPopup(`<b>${city.name}</b><br>الحالة: ${city.status}`);
+                    
+                    if(city.name === "Sanaa") {
+                        document.getElementById('sanaa-aqi').innerText = city.aqi;
+                        document.getElementById('sanaa-status').innerText = city.status;
+                    }
+                });
+
+            } catch (err) {
+                console.log("Waiting for first GitHub Action run...");
+                document.getElementById('ai-text').innerText = "جاري تهيئة النظام... يرجى الانتظار لتشغيل التحديث التلقائي.";
+            }
+        }
+
+        loadEcoData();
+    </script>
 </body>
 </html>
