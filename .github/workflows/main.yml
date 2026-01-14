@@ -1,0 +1,38 @@
+name: Yemen Eco-Intelligence Update
+
+on:
+  schedule:
+    - cron: '0 * * * *' # كل ساعة
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Libraries
+        run: pip install requests openai
+
+      - name: Run Data Engine
+        env:
+          OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
+          NASA_KEY: ${{ secrets.NASA_KEY }}
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+        run: python data_engine.py
+
+      - name: Save Changes
+        run: |
+          git config --global user.name "Eco-Bot"
+          git config --global user.email "bot@yemen-eco.com"
+          git add live_data.json
+          git commit -m "🤖 AI Report Updated" || echo "No changes"
+          git push
