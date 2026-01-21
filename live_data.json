@@ -1,12 +1,12 @@
 {
-  "last_update": "2026-01-21 09:01",
+  "last_update": "2026-01-21 10:59",
   "locations": [
     {
       "name": "Sanaa",
       "lat": 15.3694,
       "lon": 44.191,
-      "aqi": 4,
-      "status": "سيء",
+      "aqi": 3,
+      "status": "متوسط",
       "temp": 28
     },
     {
@@ -29,8 +29,8 @@
       "name": "Hodeidah",
       "lat": 14.7978,
       "lon": 42.9545,
-      "aqi": 3,
-      "status": "متوسط",
+      "aqi": 2,
+      "status": "جيد",
       "temp": 28
     }
   ],
