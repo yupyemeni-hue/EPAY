@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-01-21 21:54",
+  "last_update": "2026-01-21 22:55",
   "locations": [
     {
       "name": "Sanaa",
@@ -29,8 +29,8 @@
       "name": "Hodeidah",
       "lat": 14.7978,
       "lon": 42.9545,
-      "aqi": 2,
-      "status": "جيد",
+      "aqi": 3,
+      "status": "متوسط",
       "temp": 28
     }
   ],
