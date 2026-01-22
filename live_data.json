@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-01-22 15:00",
+  "last_update": "2026-01-22 17:04",
   "locations": [
     {
       "name": "Sanaa",
@@ -13,8 +13,8 @@
       "name": "Aden",
       "lat": 12.7855,
       "lon": 45.0188,
-      "aqi": 2,
-      "status": "جيد",
+      "aqi": 3,
+      "status": "متوسط",
       "temp": 28
     },
     {
