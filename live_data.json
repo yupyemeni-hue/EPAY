@@ -1,12 +1,12 @@
 {
-  "last_update": "2026-03-07 07:21",
+  "last_update": "2026-03-07 08:18",
   "locations": [
     {
       "name": "Sanaa",
       "lat": 15.3694,
       "lon": 44.191,
-      "aqi": 3,
-      "status": "متوسط",
+      "aqi": 4,
+      "status": "سيء",
       "temp": 28
     },
     {
