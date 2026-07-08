@@ -1,5 +1,5 @@
 {
-  "last_update": "2026-07-08 21:59",
+  "last_update": "2026-07-08 23:07",
   "locations": [
     {
       "name": "Sanaa",
@@ -21,16 +21,16 @@
       "name": "Socotra",
       "lat": 12.4634,
       "lon": 53.8237,
-      "aqi": 3,
-      "status": "متوسط",
+      "aqi": 2,
+      "status": "جيد",
       "temp": 28
     },
     {
       "name": "Hodeidah",
       "lat": 14.7978,
       "lon": 42.9545,
-      "aqi": 3,
-      "status": "متوسط",
+      "aqi": 4,
+      "status": "سيء",
       "temp": 28
     }
   ],
