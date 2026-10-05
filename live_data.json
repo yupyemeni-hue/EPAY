@@ -1,12 +1,12 @@
 {
-  "last_update": "2026-10-05 01:23",
+  "last_update": "2026-10-05 07:54",
   "locations": [
     {
       "name": "Sanaa",
       "lat": 15.3694,
       "lon": 44.191,
-      "aqi": 2,
-      "status": "جيد",
+      "aqi": 3,
+      "status": "متوسط",
       "temp": 28
     },
     {
@@ -21,8 +21,8 @@
       "name": "Socotra",
       "lat": 12.4634,
       "lon": 53.8237,
-      "aqi": 1,
-      "status": "ممتاز",
+      "aqi": 2,
+      "status": "جيد",
       "temp": 28
     },
     {
